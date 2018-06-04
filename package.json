@@ -5,9 +5,12 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "lint": "eslint .",
+    "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
+    "antd": "^3.6.1",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
     "babel-eslint": "7.2.3",
@@ -21,11 +24,14 @@
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
     "eslint": "4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "2.39.1",
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "7.4.0",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.5",
@@ -89,6 +95,76 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app"
-  }
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "import",
+      "prettier"
+    ],
+    "rules": {
+      "max-len": [
+        "error",
+        80
+      ],
+      "semi": [
+        2,
+        "never"
+      ],
+      "no-console": 2,
+      "jsx-a11y/anchor-is-valid": [
+        "error",
+        {
+          "components": []
+        }
+      ],
+      "jsx-a11y/media-has-caption": 0,
+      "react/jsx-filename-extension": 0,
+      "import/extensions": 0,
+      "react/prop-types": 0,
+      "no-return-assign": 0,
+      "no-shadow": 0,
+      "keyword-spacing": [
+        2,
+        {
+          "overrides": {
+            "function": {
+              "after": false
+            }
+          }
+        }
+      ],
+      "comma-dangle": [
+        "error",
+        {
+          "arrays": "always-multiline",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "never"
+        }
+      ],
+      "import/prefer-default-export": "off"
+    },
+    "settings": {
+      "prettier/prettier": [
+        "warn",
+        {
+          "printWidth": 80,
+          "tabWidth": 2,
+          "singleQuote": true,
+          "trailingComma": "all",
+          "bracketSpacing": true,
+          "jsxBracketSameLine": false,
+          "parser": "babylon"
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "config/*.js",
+    "scripts/*.js",
+    "*/*.test.js"
+  ]
 }
