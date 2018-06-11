@@ -1,0 +1,26 @@
+.root {
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem 0.5rem;
+  background: #fff;
+  cursor: pointer;
+
+  &:hover {
+    background: #d2e9ff;
+  }
+
+  & + & {
+    padding-top: 0.5rem;
+    border-top: 1px solid #e8e8e8;
+  }
+}
+
+.title {
+  color: #595959;
+  font-weight: 500;
+  margin-left: 1rem;
+}
+
+.image {
+  width: 6rem;
+}
