@@ -8,19 +8,8 @@ import ListTitle from '../List/ListTitle.js'
 import FileInput from '../FileInput/FileInput.js'
 import styles from './Main.scss'
 import unknownImage from '../../static/unknown.jpg'
-import George_Clooney from '../../static/George_Clooney.mp4'
-import ss1 from '../../static/1.JPG'
 
-const { baseURL } = baseConfig
-
-const listData = [
-  {
-    title: 'George_Clooney.mp4',
-    name: 'George_Clooney',
-    image: ss1,
-    video: George_Clooney,
-  },
-]
+const { baseURL, baseData } = baseConfig
 
 class Main extends React.Component {
   constructor(props) {
@@ -62,7 +51,7 @@ class Main extends React.Component {
               <List
                 className={styles.videoList}
                 listTitle="Select a video"
-                listData={listData}
+                listData={baseData}
                 changeVideoSource={newSource =>
                   this.changeVideoSource(newSource)
                 }
