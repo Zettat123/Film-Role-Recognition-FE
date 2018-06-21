@@ -5,7 +5,13 @@ import ListTitle from './ListTitle'
 import ListItem from './ListItem'
 import styles from './List.scss'
 
-const List = ({ className, listTitle, listData, changeVideoSource }) => (
+const List = ({
+  className,
+  listTitle,
+  listData,
+  selectVideo,
+  changeVideoSource,
+}) => (
   <div className={cx(className, styles.root)}>
     <ListTitle listTitle={listTitle} />
     <div className={styles.listBody}>
@@ -17,6 +23,7 @@ const List = ({ className, listTitle, listData, changeVideoSource }) => (
           name={name}
           image={image}
           video={video}
+          selectVideo={selectVideo}
           changeVideoSource={changeVideoSource}
         />
       ))}

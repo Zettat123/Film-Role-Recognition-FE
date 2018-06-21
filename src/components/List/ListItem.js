@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from 'react'
 import cx from 'classnames'
-import { selectVideo } from '../../requests'
+// import { selectVideo } from '../../requests'
 import styles from './ListItem.scss'
 
 class ListItem extends React.Component {
@@ -14,9 +14,10 @@ class ListItem extends React.Component {
   }
 
   handleClick() {
-    const { changeVideoSource, video, name } = this.props
+    const { selectVideo, changeVideoSource, video, name } = this.props
 
-    selectVideo(name).then(() => changeVideoSource(video))
+    selectVideo(name)
+    // selectVideo(name).then(() => changeVideoSource(video))
   }
 
   render() {

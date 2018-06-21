@@ -3,7 +3,7 @@ import React from 'react'
 import io from 'socket.io-client'
 import baseConfig from '../baseConfig'
 
-const { baseURL } = baseConfig
+const { baseSocketURL } = baseConfig
 
 class TestSocket extends React.Component {
   constructor(props) {
@@ -17,14 +17,14 @@ class TestSocket extends React.Component {
   }
 
   componentDidMount() {
-    const socket = io.connect('ws://127.0.0.1:5000')
+    const socket = io.connect(baseSocketURL)
 
     this.setState({ socket })
 
     socket.on('receive_info', data => {
       console.log(new Date() + ' %o', data)
 
-      this.setState({ image: data.data[-1].image })
+      // this.setState({ image: data.data[-1].image })
     })
 
     socket.on('connect', () => {

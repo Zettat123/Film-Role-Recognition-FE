@@ -66,12 +66,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,mjs}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
+    "collectCoverageFrom": ["src/**/*.{js,jsx,mjs}"],
+    "setupFiles": ["<rootDir>/config/polyfills.js"],
     "testMatch": [
       "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
       "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
@@ -81,11 +77,10 @@
     "transform": {
       "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+      "^(?!.*\\.(js|jsx|mjs|css|json)$)":
+        "<rootDir>/config/jest/fileTransform.js"
     },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
+    "transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"],
     "moduleNameMapper": {
       "^react-native$": "react-native-web"
     },
@@ -100,28 +95,16 @@
     ]
   },
   "babel": {
-    "presets": [
-      "react-app"
-    ]
+    "presets": ["react-app"]
   },
   "eslintConfig": {
     "parser": "babel-eslint",
     "extends": "airbnb",
-    "plugins": [
-      "react",
-      "jsx-a11y",
-      "import",
-      "prettier"
-    ],
+    "plugins": ["react", "jsx-a11y", "import", "prettier"],
     "rules": {
-      "max-len": [
-        "error",
-        80
-      ],
-      "semi": [
-        2,
-        "never"
-      ],
+      "linebreak-style": "off",
+      "max-len": ["error", 80],
+      "semi": [2, "never"],
       "no-console": 2,
       "jsx-a11y/anchor-is-valid": [
         "error",
@@ -172,9 +155,5 @@
       ]
     }
   },
-  "eslintIgnore": [
-    "config/*.js",
-    "scripts/*.js",
-    "*/*.test.js"
-  ]
+  "eslintIgnore": ["config/*.js", "scripts/*.js", "*/*.test.js"]
 }

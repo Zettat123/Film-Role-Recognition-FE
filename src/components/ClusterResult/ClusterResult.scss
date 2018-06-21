@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  min-width: 30rem;
+  max-width: 50rem;
+  height: 100%;
+}
+
+.progressBar {
+  margin-bottom: 1rem;
+}
+
+.clusterList {
+  overflow-y: auto;
+}
+
+.clusterItem {
+  & + & {
+    margin-top: 0.5rem;
+  }
+}

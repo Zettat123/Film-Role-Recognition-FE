@@ -1,15 +1,17 @@
 /* eslint-disable */
 import React from 'react'
+import io from 'socket.io-client'
 import randomstring from 'randomstring'
 import baseConfig from '../../baseConfig'
 import List from '../List/List'
 import ListItem from '../List/ListItem.js'
 import ListTitle from '../List/ListTitle.js'
 import FileInput from '../FileInput/FileInput.js'
+import ClusterResult from '../ClusterResult/ClusterResult'
 import styles from './Main.scss'
 import unknownImage from '../../static/unknown.jpg'
 
-const { baseURL, baseData } = baseConfig
+const { baseURL, baseSocketURL, baseData } = baseConfig
 
 class Main extends React.Component {
   constructor(props) {
@@ -19,22 +21,33 @@ class Main extends React.Component {
       title: 'Film Role Recognition',
       imageSource: unknownImage,
       videoSource: '',
+      socket: null,
+      cluster_data: null,
     }
+  }
+
+  componentDidMount() {
+    const socket = io.connect(baseSocketURL)
+
+    this.setState({ socket })
+  }
+
+  selectVideo(name) {
+    const { socket } = this.state
+    socket.on('receive_cluster', ({ data }) => {
+      this.setState({ cluster_data: data })
+      console.log(data)
+    })
+    socket.emit('select_video', name)
   }
 
   changeVideoSource(newSource) {
     const { videoSource: currentSource } = this.state
     if (newSource === currentSource) return
-
-    this.setState({ videoSource: newSource }, () =>
-      this.setState({
-        imageSource: `${baseURL}/cluster_result/${randomstring.generate(6)}`,
-      })
-    )
   }
 
   render() {
-    const { videoSource, imageSource } = this.state
+    const { videoSource, imageSource, cluster_data } = this.state
 
     return (
       <div className={styles.root}>
@@ -52,6 +65,7 @@ class Main extends React.Component {
                 className={styles.videoList}
                 listTitle="Select a video"
                 listData={baseData}
+                selectVideo={name => this.selectVideo(name)}
                 changeVideoSource={newSource =>
                   this.changeVideoSource(newSource)
                 }
@@ -65,7 +79,11 @@ class Main extends React.Component {
               </div>
             </div>
             <div className={styles.videoInfoRight}>
-              <img className={styles.resultImage} src={imageSource} />
+              {cluster_data ? (
+                <ClusterResult data={cluster_data} />
+              ) : (
+                <div>Loading...</div>
+              )}
             </div>
           </div>
         </div>
