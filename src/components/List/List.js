@@ -11,10 +11,12 @@ const List = ({
   listData,
   selectVideo,
   changeVideoSource,
+  disabled,
 }) => (
   <div className={cx(className, styles.root)}>
     <ListTitle listTitle={listTitle} />
     <div className={styles.listBody}>
+      <div className={cx(styles.cover, { [styles.disabled]: disabled })} />
       {listData.map(({ title, name, image, video }, index) => (
         <ListItem
           className={styles.listItem}

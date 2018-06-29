@@ -2,6 +2,7 @@
 import React from 'react'
 import io from 'socket.io-client'
 import randomstring from 'randomstring'
+import { Modal } from 'antd'
 import baseConfig from '../../baseConfig'
 import List from '../List/List'
 import ListItem from '../List/ListItem.js'
@@ -21,6 +22,8 @@ class Main extends React.Component {
       title: 'Film Role Recognition',
       imageSource: unknownImage,
       videoSource: '',
+      isUploading: false,
+      isRunning: false,
       socket: null,
       cluster_data: null,
     }
@@ -29,25 +32,86 @@ class Main extends React.Component {
   componentDidMount() {
     const socket = io.connect(baseSocketURL)
 
+    socket.on('receive_cluster', ({ data }) => {
+      this.setState({ cluster_data: data })
+      this.checkProgress()
+      console.log(data)
+    })
+
     this.setState({ socket })
   }
 
-  selectVideo(name) {
+  checkConnection() {
     const { socket } = this.state
-    socket.on('receive_cluster', ({ data }) => {
-      this.setState({ cluster_data: data })
-      console.log(data)
-    })
+
+    if (!socket || socket.disconnected) {
+      Modal.error({
+        title: 'Connection is broken',
+        content: 'Please refresh this page.',
+        onOk() {
+          document.location.reload()
+        },
+      })
+      return false
+    }
+
+    return true
+  }
+
+  checkProgress() {
+    const { cluster_data, isUploading, isRunning } = this.state
+
+    if (isUploading && cluster_data && cluster_data.progress > 0) {
+      this.setState({ isUploading: false })
+    }
+
+    if (isRunning && cluster_data && cluster_data.progress === 100) {
+      this.setState({ isRunning: false })
+    }
+  }
+
+  selectVideo(name) {
+    if (!this.checkConnection()) return
+
+    const { socket } = this.state
+
     socket.emit('select_video', name)
+
+    this.setState({ cluster_data: null, isRunning: true })
+  }
+
+  uploadVideo(videoFileData) {
+    if (!this.checkConnection()) return
+
+    const { socket } = this.state
+
+    socket.emit('upload_video', videoFileData)
+
+    this.setState({
+      cluster_data: null,
+      isRunning: true,
+      isUploading: true,
+    })
   }
 
   changeVideoSource(newSource) {
     const { videoSource: currentSource } = this.state
     if (newSource === currentSource) return
+
+    this.setState({ videoSource: newSource })
   }
 
   render() {
-    const { videoSource, imageSource, cluster_data } = this.state
+    const {
+      title,
+      videoSource,
+      imageSource,
+      cluster_data,
+      isUploading,
+      isRunning,
+    } = this.state
+
+    const info = isUploading ? 'Video uploading, please wait...' : ''
 
     return (
       <div className={styles.root}>
@@ -69,12 +133,15 @@ class Main extends React.Component {
                 changeVideoSource={newSource =>
                   this.changeVideoSource(newSource)
                 }
+                disabled={isRunning}
               />
               <div className={styles.fileInputBar}>
                 <FileInput
                   changeVideoSource={newSource =>
                     this.changeVideoSource(newSource)
                   }
+                  uploadVideo={videoFileData => this.uploadVideo(videoFileData)}
+                  disabled={isRunning}
                 />
               </div>
             </div>
@@ -82,13 +149,13 @@ class Main extends React.Component {
               {cluster_data ? (
                 <ClusterResult data={cluster_data} />
               ) : (
-                <div>Loading...</div>
+                <div>{info}</div>
               )}
             </div>
           </div>
         </div>
         <div className={styles.footer}>
-          <p>Footer Content</p>
+          <p>{title}</p>
         </div>
       </div>
     )

@@ -9,12 +9,16 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 8rem;
+  width: 12rem;
   color: #595959;
   font-weight: bold;
   padding: 0 1rem;
 }
 
 .clusterNumber {
+  margin-bottom: 0.5rem;
+}
+
+.clusterName {
   margin-bottom: 0.5rem;
 }

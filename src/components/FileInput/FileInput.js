@@ -2,7 +2,6 @@
 import React from 'react'
 import { Icon, Modal } from 'antd'
 import cx from 'classnames'
-import { uploadVideo } from '../../requests'
 import styles from './FileInput.scss'
 
 class FileInput extends React.Component {
@@ -45,11 +44,26 @@ class FileInput extends React.Component {
 
   uploadFile() {
     const { file } = this.state
+    const { uploadVideo } = this.props
 
-    let fileFormData = new FormData()
-    fileFormData.append('file', file)
+    const fileName = file.name.substr(0, file.name.lastIndexOf('.'))
+    const fileExtensionName = file.name.substr(
+      file.name.lastIndexOf('.') + 1,
+      file.name.length - file.name.lastIndexOf('.')
+    )
 
-    uploadVideo(fileFormData)
+    const videoFileData = {
+      file,
+      fileName,
+      fileExtensionName,
+    }
+
+    uploadVideo(videoFileData)
+
+    // let fileFormData = new FormData()
+    // fileFormData.append('file', file)
+    //
+    // uploadVideo(fileFormData)
   }
 
   deleteFile() {
@@ -64,11 +78,12 @@ class FileInput extends React.Component {
   }
 
   render() {
-    const { className } = this.props
+    const { className, disabled } = this.props
     const { file } = this.state
 
     return (
       <div className={cx(className, styles.root)}>
+        <div className={cx(styles.cover, { [styles.disabled]: disabled })} />
         {file === null ? (
           <button
             className={cx(styles.button, styles.select)}

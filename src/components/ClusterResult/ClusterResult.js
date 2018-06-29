@@ -23,7 +23,11 @@ class ClusterResult extends React.Component {
     return (
       <div className={cx(className, styles.root)}>
         <div className={styles.progressBar}>
-          <Progress percent={progress} />
+          {progress === -1 ? (
+            <div>File Uploading</div>
+          ) : (
+            <Progress percent={progress} />
+          )}
         </div>
 
         <div className={styles.clusterList}>

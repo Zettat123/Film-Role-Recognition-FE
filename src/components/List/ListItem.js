@@ -17,6 +17,7 @@ class ListItem extends React.Component {
     const { selectVideo, changeVideoSource, video, name } = this.props
 
     selectVideo(name)
+    changeVideoSource(video)
     // selectVideo(name).then(() => changeVideoSource(video))
   }
 
