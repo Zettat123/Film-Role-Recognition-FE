@@ -3,7 +3,8 @@ import React from 'react'
 import io from 'socket.io-client'
 import randomstring from 'randomstring'
 import { Modal } from 'antd'
-import baseConfig from '../../baseConfig'
+import baseConfig from '../../baseConfig.json'
+import baseData from '../../baseData'
 import List from '../List/List'
 import ListItem from '../List/ListItem.js'
 import ListTitle from '../List/ListTitle.js'
@@ -12,7 +13,8 @@ import ClusterResult from '../ClusterResult/ClusterResult'
 import styles from './Main.scss'
 import unknownImage from '../../static/unknown.jpg'
 
-const { baseURL, baseSocketURL, baseData } = baseConfig
+const { baseURL, baseSocketURL } = baseConfig
+const { baseListData } = baseData
 
 class Main extends React.Component {
   constructor(props) {
@@ -128,7 +130,7 @@ class Main extends React.Component {
               <List
                 className={styles.videoList}
                 listTitle="Select a video"
-                listData={baseData}
+                listData={baseListData}
                 selectVideo={name => this.selectVideo(name)}
                 changeVideoSource={newSource =>
                   this.changeVideoSource(newSource)
