@@ -32,7 +32,7 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    const socket = io.connect(baseSocketURL)
+    const socket = io(baseSocketURL)
 
     socket.on('receive_cluster', ({ data }) => {
       this.setState({ cluster_data: data })
